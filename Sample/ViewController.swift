@@ -12,7 +12,8 @@ import MapKit
 import MediaPlayer
 import CoreLocation
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class ViewController: UIViewController, CLLocationManagerDelegate, UIImagePickerControllerDelegate,
+UINavigationControllerDelegate {
     //
     //  ViewController.swift
     //  sdfasdafvd
