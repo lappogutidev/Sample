@@ -24,8 +24,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //Map
     @IBOutlet weak var map: MKMapView!
     
+    @IBOutlet weak var address: UILabel!
     let mapManager = CLLocationManager()
-        
+    
+    
+    
     func locationManager(_ mapManager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations[0]
         let span:MKCoordinateSpan = MKCoordinateSpanMake(0.01, 0.01)
@@ -34,6 +37,23 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         map.setRegion(region, animated: true)
             
         self.map.showsUserLocation = true
+        
+        CLGeocoder().reverseGeocodeLocation(location) { (placemark, error) in
+            if error != nil
+            {
+                print ("Error Reverse Geocoding Location")
+            }
+            else
+            {
+                if let place = placemark?[0]
+                {
+                    if let checker = place.subThoroughfare
+                    {
+                        self.address.text = "\(place.subThoroughfare!) \n \(place.thoroughfare!) \n \(place.country!)"
+                    }
+                }
+            }
+        }
     }
     //Date and Time
     let date = Date();
