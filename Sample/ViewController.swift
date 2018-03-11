@@ -12,7 +12,7 @@ import MapKit
 import MediaPlayer
 import CoreLocation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, CLLocationManagerDelegate {
     //
     //  ViewController.swift
     //  sdfasdafvd
@@ -41,6 +41,7 @@ class ViewController: UIViewController {
 
     //UI Elements
     @IBOutlet weak var dateLabel: UILabel!
+    
         
     //UI Management
     @IBAction func button(_ sender: UIButton) {
@@ -49,11 +50,12 @@ class ViewController: UIViewController {
         dateLabel.text = "\(dateFormatter.string(from: date))"
         
         //Map
-        mapManager.delegate = self as? CLLocationManagerDelegate
+        mapManager.delegate = self 
         mapManager.desiredAccuracy = kCLLocationAccuracyBest
         mapManager.requestWhenInUseAuthorization()
         mapManager.startUpdatingLocation()
     }
+    
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
