@@ -8,8 +8,52 @@
 
 import UIKit
 import CoreData
+import MapKit
+import MediaPlayer
+import CoreLocation
 
 class ViewController: UIViewController {
+    //
+    //  ViewController.swift
+    //  sdfasdafvd
+    //
+    //  Created by Pramodh Aryasomayajula on 3/10/18.
+    //  Copyright © 2018 Pramodh Aryasomayajula. All rights reserved.
+    //
+        
+    //Map
+    @IBOutlet weak var map: MKMapView!
+    
+    let mapManager = CLLocationManager()
+        
+    func locationManager(_ mapManager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations[0]
+        let span:MKCoordinateSpan = MKCoordinateSpanMake(0.01, 0.01)
+        let myLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.latitude)
+        let region:MKCoordinateRegion = MKCoordinateRegionMake(myLocation, span)
+        map.setRegion(region, animated: true)
+            
+        self.map.showsUserLocation = true
+    }
+    //Date and Time
+    let date = Date();
+    let dateFormatter = DateFormatter();
+
+    //UI Elements
+    @IBOutlet weak var dateLabel: UILabel!
+        
+    //UI Management
+    @IBAction func button(_ sender: UIButton) {
+        dateFormatter.timeStyle = .short
+        dateFormatter.dateStyle = .medium
+        dateLabel.text = "\(dateFormatter.string(from: date))"
+        
+        //Map
+        mapManager.delegate = self as? CLLocationManagerDelegate
+        mapManager.desiredAccuracy = kCLLocationAccuracyBest
+        mapManager.requestWhenInUseAuthorization()
+        mapManager.startUpdatingLocation()
+    }
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
